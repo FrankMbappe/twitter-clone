@@ -1,4 +1,4 @@
-import { Flex, Grid, GridItem, Stack } from "@chakra-ui/react";
+import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import LeftBar from "./LeftBar";
 import RightBar from "./RightBar";
@@ -12,20 +12,16 @@ const RootLayout: React.FC = () => {
         templateColumns="repeat(8, 1fr)"
         templateRows="100vh"
         w="full"
+        alignItems="start"
         maxW="6xl"
       >
-        <GridItem colSpan={2} pos="sticky" top={2} alignSelf="start">
+        <GridItem colSpan={2} pos="fixed" h="100vh" top={0}>
           <LeftBar />
         </GridItem>
-        <GridItem
-          borderLeftWidth={1}
-          borderRightWidth={1}
-          borderColor="gainsboro"
-          colSpan={4}
-        >
+        <GridItem gridColumnStart={3} borderColor="gainsboro" colSpan={4}>
           <Outlet />
         </GridItem>
-        <GridItem colSpan={2}>
+        <GridItem colSpan={2} top={0} pos="sticky">
           <RightBar />
         </GridItem>
       </Grid>

@@ -7,8 +7,8 @@ body {
 
 /* use viewport-relative units to cover page fully */
 body {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   font-family: "Inter" sans-serif;
 }
 

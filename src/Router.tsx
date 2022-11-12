@@ -1,15 +1,26 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "@/layouts/Root";
-import FeedPage from "./pages/FeedPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+
+export enum RoutesEnum {
+  Root = "/",
+  Home = "/",
+  Profile = "/profile",
+}
 
 const Router = createBrowserRouter([
   {
-    path: "/",
+    path: RoutesEnum.Root,
     element: <RootLayout />,
     children: [
       {
-        path: "/feed",
-        element: <FeedPage />,
+        path: RoutesEnum.Home,
+        element: <HomePage />,
+      },
+      {
+        path: RoutesEnum.Profile,
+        element: <ProfilePage />,
       },
     ],
   },

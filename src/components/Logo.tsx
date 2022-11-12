@@ -1,31 +1,135 @@
 import { Icon, IconProps } from "@chakra-ui/react";
+import { SVGProps } from "react";
 
-const Logo = (props: IconProps) => {
+const Logo = (props: SVGProps<SVGSVGElement>) => {
   return (
-    <Icon
-      as={() => (
-        <svg
-          width="27"
-          height="37"
-          viewBox="0 0 27 37"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clip-path="url(#clip0_402_243)">
-            <path
-              d="M27.0002 31.5562C27.0002 32.7938 26.5564 33.8555 25.6687 34.738C24.781 35.6222 23.717 36.0636 22.4743 36.0636H13.5268C9.799 36.0636 6.61337 34.7466 3.96801 32.1094C1.32193 29.4725 0.000244141 26.2985 0.000244141 22.5827V4.51199C0.000244141 3.23856 0.440903 2.16899 1.32193 1.30123C2.20296 0.434736 3.2792 0.000244141 4.54946 0.000244141C5.7828 0.000244141 6.84252 0.442851 7.72236 1.32705C8.60487 2.21032 9.04675 3.27008 9.04675 4.50886V11.0521H21.7855C22.9421 11.0521 23.9329 11.462 24.7596 12.2824C25.5851 13.1014 25.9971 14.0844 25.9971 15.2323C25.9971 16.378 25.5852 17.3627 24.7625 18.1823C23.9395 19.0009 22.9507 19.4115 21.7991 19.4115H9.04675V22.5785C9.04675 23.8204 9.48027 24.8752 10.3517 25.7455C11.2221 26.6132 12.2789 27.0477 13.5223 27.0477H22.4726C23.7145 27.0477 24.7809 27.4908 25.6686 28.3745C26.5563 29.2588 27.0002 30.3193 27.0002 31.5563"
-              fill="black"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_402_243">
-              <rect width="27" height="36.0634" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      )}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="75"
+      height="75"
+      version="1.1"
+      viewBox="0 0 120 120"
       {...props}
-    />
+    >
+      <path
+        fill="#80deea"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M112.613 60A52.613 52.613 0 0160 112.613 52.613 52.613 0 017.387 60 52.613 52.613 0 0160 7.387 52.613 52.613 0 01112.613 60z"
+        opacity="1"
+      ></path>
+      <path
+        fill="#00695c"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M99.127 57.102c-.757 0-1.367.61-1.367 1.367v13.247c0 .758.61 1.367 1.367 1.367s1.367-.61 1.367-1.367V58.47c0-.757-.61-1.367-1.367-1.367z"
+        opacity="1"
+      ></path>
+      <path
+        fill="#ffb300"
+        fillRule="evenodd"
+        stroke="none"
+        strokeLinecap="butt"
+        strokeLinejoin="miter"
+        strokeOpacity="1"
+        strokeWidth="1"
+        d="M35.744 62.303c-2.69.018-5.672.932-9.624 3.454-6.853 4.375-12.706 6.683-16.909 7.904A52.613 52.613 0 0060 112.613 52.613 52.613 0 00110.863 73.2c-3.181 1.494-6.277 3.368-8.813 5.712-9.596 8.87-20.028-11.36-40.057-11.061-14.396.215-19.372-5.593-26.249-5.547z"
+      ></path>
+      <path
+        fill="#00695c"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M94.755 61.684c0 .757.61 1.367 1.367 1.367h2.313c.757 0 1.367-.61 1.367-1.367s-.61-1.367-1.367-1.367h-2.313c-.757 0-1.367.61-1.367 1.367z"
+        opacity="1"
+      ></path>
+      <path
+        fill="#004d40"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M106.227 63.773a.87.87 0 01.872.871v8.448a.87.87 0 01-.872.871.87.87 0 01-.871-.871v-8.448a.87.87 0 01.871-.871z"
+        opacity="1"
+      ></path>
+      <path
+        fill="#ffa000"
+        fillRule="evenodd"
+        stroke="none"
+        strokeLinecap="butt"
+        strokeLinejoin="miter"
+        strokeOpacity="1"
+        strokeWidth="1"
+        d="M84.33 62.303c2.691.018 5.673.932 9.624 3.454 6.854 4.375 12.707 6.683 16.91 7.904a52.613 52.613 0 01-50.79 38.952A52.613 52.613 0 019.212 73.2c3.182 1.494 6.278 3.368 8.813 5.712 9.596 8.87 20.029-11.36 40.058-11.061 14.396.215 19.371-5.593 26.248-5.547z"
+      ></path>
+      <path
+        fill="#004d40"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M109.016 66.694a.87.87 0 01-.872.872h-1.475a.87.87 0 01-.872-.872.87.87 0 01.872-.871h1.475a.87.87 0 01.872.871z"
+        opacity="1"
+      ></path>
+      <path
+        fill="#004d40"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M106.77 68.74a.87.87 0 01-.872.87h-1.475a.87.87 0 01-.872-.87.87.87 0 01.872-.872h1.475a.87.87 0 01.872.871z"
+        opacity="1"
+      ></path>
+      <path
+        fill="#fff59d"
+        fillOpacity="1"
+        stroke="none"
+        strokeDasharray="none"
+        strokeDashoffset="0"
+        strokeLinecap="round"
+        strokeLinejoin="miter"
+        strokeMiterlimit="4"
+        strokeOpacity="1"
+        strokeWidth="6.9"
+        d="M89.398 39.951a6.792 6.792 0 01-6.793 6.792 6.792 6.792 0 01-6.792-6.792 6.792 6.792 0 016.792-6.792 6.792 6.792 0 016.793 6.792z"
+        opacity="1"
+      ></path>
+    </svg>
   );
 };
 

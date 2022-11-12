@@ -1,4 +1,4 @@
-import { As, Flex, Icon, Text } from "@chakra-ui/react";
+import { As, Flex, FlexProps, Icon, Text } from "@chakra-ui/react";
 
 type MenuItemProps = {
   icon: As<any>;
@@ -7,7 +7,13 @@ type MenuItemProps = {
   isSelected?: boolean;
 };
 
-const MenuItem = ({ icon, iconSelected, text, isSelected }: MenuItemProps) => {
+const MenuItem = ({
+  icon,
+  iconSelected,
+  text,
+  isSelected,
+  ...props
+}: FlexProps & MenuItemProps) => {
   return (
     <Flex
       cursor="pointer"
@@ -20,6 +26,7 @@ const MenuItem = ({ icon, iconSelected, text, isSelected }: MenuItemProps) => {
       _hover={{
         backgroundColor: "whitesmoke",
       }}
+      {...props}
     >
       <Icon
         as={isSelected ? iconSelected : icon}
