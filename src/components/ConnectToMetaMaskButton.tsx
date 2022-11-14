@@ -1,11 +1,24 @@
 import useUser from "@/hooks/user";
-import { Button, Icon } from "@chakra-ui/react";
-import { LinkIcon } from "@heroicons/react/24/solid";
+import { Button, Icon, Tag, TagLabel, TagLeftIcon } from "@chakra-ui/react";
+import { CheckCircleIcon, LinkIcon } from "@heroicons/react/24/solid";
+import { useContext } from "react";
+import { AccountContext } from "./AccountProvider";
 import ErrorMsg from "./ErrorMsg";
 
 const ConnectToMetaMaskButton = () => {
-  const { error, loading, connectToMetaMask } = useUser();
-  return (
+  const {
+    userConnectError,
+    isUserConnecting,
+    connectToMetaMask,
+    isUserConnected,
+  } = useContext(AccountContext);
+
+  return isUserConnected ? (
+    <Tag size="lg" colorScheme="green">
+      <TagLeftIcon as={CheckCircleIcon} />
+      <TagLabel>Connected</TagLabel>
+    </Tag>
+  ) : (
     <>
       <Button
         leftIcon={<Icon as={LinkIcon} />}
@@ -13,12 +26,12 @@ const ConnectToMetaMaskButton = () => {
         rounded="full"
         colorScheme="whatsapp"
         onClick={connectToMetaMask}
-        isLoading={loading}
+        isLoading={isUserConnecting}
         mb={2}
       >
         Connect to MetaMask
       </Button>
-      {!!error && <ErrorMsg textOnly />}
+      {!!userConnectError && <ErrorMsg textOnly />}
     </>
   );
 };

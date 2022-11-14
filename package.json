@@ -23,7 +23,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "react-textarea-autosize": "^8.4.0",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.22",

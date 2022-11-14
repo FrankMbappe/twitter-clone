@@ -3,7 +3,8 @@ import useUser from "@/hooks/user";
 import Tweet from "@/models/Tweet";
 import { METAMASK_LOGO_URL } from "@/utils";
 import { Flex, Avatar, Stack, Button } from "@chakra-ui/react";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useContext } from "react";
+import { AccountContext } from "./AccountProvider";
 import AutoResizeTextarea from "./AutoResizeTextarea";
 import ErrorMsg from "./ErrorMsg";
 
@@ -14,7 +15,7 @@ type TweetInputProps = {
 
 const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
   const [text, setText] = useState(tweet?.text || "");
-  const { isUserConnected, userAddress } = useUser();
+  const { isUserConnected, userAccount } = useContext(AccountContext);
   const isEditing = useMemo(() => !!tweet, [tweet]);
   const {
     loading: isCreating,
@@ -34,7 +35,7 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
     if (isEditing) {
       await updateTweet(tweet!.id, { text });
     } else {
-      await createTweet({ author: userAddress, text });
+      await createTweet({ author: userAccount, text });
     }
 
     // Call submit callback
@@ -58,7 +59,7 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
           variant="solid"
           colorScheme="whatsapp"
           isLoading={isCreating || isUpdating}
-          isDisabled={isUserConnected}
+          disabled={!isUserConnected}
           onClick={handleTweet}
         >
           {isEditing ? "Save" : "Tweet"}
