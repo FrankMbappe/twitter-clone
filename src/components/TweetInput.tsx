@@ -1,5 +1,4 @@
 import { useCreateTweet, useUpdateTweet } from "@/hooks/tweets";
-import useUser from "@/hooks/user";
 import Tweet from "@/models/Tweet";
 import { METAMASK_LOGO_URL } from "@/utils";
 import { Flex, Avatar, Stack, Button } from "@chakra-ui/react";
@@ -14,8 +13,8 @@ type TweetInputProps = {
 };
 
 const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
-  const [text, setText] = useState(tweet?.text || "");
-  const { isUserConnected, userAccount } = useContext(AccountContext);
+  const [text, setText] = useState(tweet?.tweet || "");
+  const { isUserConnected } = useContext(AccountContext);
   const isEditing = useMemo(() => !!tweet, [tweet]);
   const {
     loading: isCreating,
@@ -35,12 +34,13 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
     if (isEditing) {
       await updateTweet(tweet!.id, { text });
     } else {
-      await createTweet({ author: userAccount, text });
+      await createTweet({ tweet: text });
     }
 
     // Call submit callback
     await onSubmit?.();
-  }, []);
+    setText("");
+  }, [text, isEditing, createTweet, updateTweet]);
 
   return (
     <Flex>

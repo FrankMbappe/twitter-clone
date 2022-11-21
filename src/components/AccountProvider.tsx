@@ -1,13 +1,19 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import Web3 from "web3";
+import { ethers } from "ethers";
+import { TwitterContractAddress } from "@/config";
+import Twitter from "@/utils/EthereumTwitter.json";
 
-export const AccountContext = createContext<{
+type AccountContextType = {
   userAccount: string;
   connectToMetaMask: () => Promise<void>;
   isUserConnecting: boolean;
   isUserConnected: boolean;
   userConnectError: string;
-}>({
+  contract?: ethers.Contract;
+};
+
+export const AccountContext = createContext<AccountContextType>({
   userAccount: "",
   connectToMetaMask: async () => {
     // Do nothing
@@ -23,6 +29,7 @@ const AccountProvider: React.FC<{
   const [isUserConnecting, setIsUserConnecting] = useState(false);
   const [userConnectError, setUserConnectError] = useState("");
   const [userAccount, setUserAccount] = useState("");
+  const [contract, setContract] = useState<ethers.Contract>();
 
   const connectToMetaMask = useCallback(async () => {
     try {
@@ -53,10 +60,22 @@ const AccountProvider: React.FC<{
   }, []);
 
   useEffect(() => {
+    if (!window.ethereum) return;
+
     // When account changes, set user account
     window.ethereum.on("accountsChanged", function (accounts: string[]) {
       setUserAccount(accounts[0]);
     });
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const twitterContract = new ethers.Contract(
+      TwitterContractAddress,
+      Twitter.abi,
+      signer
+    );
+
+    setContract(twitterContract);
   }, []);
 
   return (
@@ -67,6 +86,7 @@ const AccountProvider: React.FC<{
         connectToMetaMask,
         isUserConnecting,
         userConnectError,
+        contract,
       }}
     >
       {children}

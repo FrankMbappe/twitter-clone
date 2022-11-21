@@ -16,6 +16,7 @@
     "@fontsource/poppins": "^4.5.10",
     "@heroicons/react": "^2.0.13",
     "date-fns": "^2.29.3",
+    "ethers": "^5.7.2",
     "framer-motion": "^7.6.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

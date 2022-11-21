@@ -43,10 +43,10 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
   const { loading: isDeleting, deleteTweet } = useDeleteTweet();
   const time = useMemo(
     () =>
-      formatDistanceToNow(new Date(tweet.createdAt), {
+      formatDistanceToNow(new Date(tweet.timestamp), {
         addSuffix: true,
       }),
-    [tweet.createdAt]
+    [tweet.timestamp]
   );
 
   return (
@@ -65,7 +65,7 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
             <Text color="gray">{time}</Text>
           </Stack>
 
-          <Text fontSize={18}>{tweet.text}</Text>
+          <Text fontSize={18}>{tweet.tweet}</Text>
 
           <ButtonGroup isAttached variant="solid">
             <IconButton
