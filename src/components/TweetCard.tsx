@@ -1,6 +1,6 @@
 import { useDeleteTweet } from "@/hooks/tweets";
-import Tweet from "@/models/Tweet";
-import { DEFAULT_USER_PIC } from "@/utils";
+import type Tweet from "@/models/Tweet";
+import { DEFAULT_USER_PIC } from "@/config";
 import {
   Avatar,
   Box,

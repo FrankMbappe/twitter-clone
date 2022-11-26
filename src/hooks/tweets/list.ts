@@ -1,4 +1,4 @@
-import Tweet from "@/models/Tweet";
+import type Tweet from "@/models/Tweet";
 import { AccountContext } from "@/components/AccountProvider";
 import { useCallback, useEffect, useState, useContext } from "react";
 
@@ -12,16 +12,21 @@ export function useListTweets() {
   const fetchTweets = useCallback(async () => {
     // TODO Fetch tweets and set tweets variable
     try {
+      // Start loading
       setLoading(true);
+
+      // Reset error
       setError("");
 
-      // const tweetList: Tweet[] = await contract?.tweets(0);
+      // Fecth tweets
       const tweetList = await contract?.tweets(0);
-
       console.log("list", tweetList);
+
+      //setTweets(tweetList);
     } catch (error) {
-      console.error(error);
+      // Set error
       setError((error as Error).message);
+      console.error(error);
     } finally {
       // We are done!
       setLoading(false);
@@ -30,12 +35,13 @@ export function useListTweets() {
 
   useEffect(() => {
     // Initial fetch
-    // smartContract.on('NewTweet', () => {
-    //   fetchTweetes();
-    // })
-
     fetchTweets();
-  }, [contract]);
+
+    // TODO On new tweet, fetch again
+    /* smartContract.on('NewTweet', () => {
+      fetchTweets();
+    }); */
+  }, [fetchTweets]);
 
   return { error, loading, tweets, fetchTweets };
 }

@@ -1,21 +1,26 @@
+import { useContext } from "react";
 import { AccountContext } from "@/components/AccountProvider";
 import ConnectToMetaMaskButton from "@/components/ConnectToMetaMaskButton";
-import { METAMASK_LOGO_URL } from "@/utils";
+import { METAMASK_LOGO_URL } from "@/config";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import { useContext } from "react";
 
 const ProfilePage = () => {
-  const { userAccount } = useContext(AccountContext);
+  const { userAccount, isUserConnected } = useContext(AccountContext);
+
   return (
     <Flex direction="column" w="full" align="center" py={7}>
       <Avatar size="2xl" src={METAMASK_LOGO_URL} mb={5} />
       <ConnectToMetaMaskButton />
-      <Text fontSize={22} fontWeight="bold">
-        Address
-      </Text>
-      <Text fontSize={25} mt={2}>
-        {userAccount}
-      </Text>
+      {isUserConnected && (
+        <>
+          <Text fontSize={22} fontWeight="bold">
+            Address
+          </Text>
+          <Text fontSize={25} mt={2}>
+            {userAccount}
+          </Text>
+        </>
+      )}
     </Flex>
   );
 };

@@ -17,14 +17,14 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import MenuItem from "@/components/MenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RoutesEnum } from "@/Router";
-import { useMemo } from "react";
-import useUser from "@/hooks/user";
+import { useContext, useMemo } from "react";
 import ConnectToMetaMaskButton from "@/components/ConnectToMetaMaskButton";
+import { AccountContext } from "@/components/AccountProvider";
 
 const LeftBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { isUserConnected } = useUser();
+  const { isUserConnected } = useContext(AccountContext);
 
   const menuItems = useMemo(
     () => [

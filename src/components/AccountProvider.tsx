@@ -1,36 +1,43 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import Web3 from "web3";
 import { ethers } from "ethers";
-import { TwitterContractAddress } from "@/config";
-import Twitter from "@/utils/EthereumTwitter.json";
+import { ADDRESS, SETTINGS } from "@/contract";
 
 type AccountContextType = {
   userAccount: string;
-  connectToMetaMask: () => Promise<void>;
   isUserConnecting: boolean;
   isUserConnected: boolean;
   userConnectError: string;
+  connectToMetaMask: () => Promise<void>;
   contract?: ethers.Contract;
 };
 
+/* Creating a context object holding account info. */
 export const AccountContext = createContext<AccountContextType>({
   userAccount: "",
-  connectToMetaMask: async () => {
-    // Do nothing
-  },
   isUserConnecting: false,
   isUserConnected: false,
   userConnectError: "",
+  connectToMetaMask: async () => {
+    // Do nothing
+  },
 });
 
+/**
+ * The AccountProvider is a React component that provides the AccountContext to its children.
+ * @param children Components that will be able to consume provided data.
+ */
 const AccountProvider: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
+  const [contract, setContract] = useState<ethers.Contract>();
   const [isUserConnecting, setIsUserConnecting] = useState(false);
   const [userConnectError, setUserConnectError] = useState("");
   const [userAccount, setUserAccount] = useState("");
-  const [contract, setContract] = useState<ethers.Contract>();
 
+  /**
+   * Connects to the MetaMask instance of browser, and sets user account value.
+   */
   const connectToMetaMask = useCallback(async () => {
     try {
       // User is connecting
@@ -67,15 +74,10 @@ const AccountProvider: React.FC<{
       setUserAccount(accounts[0]);
     });
 
+    // Set contract
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const twitterContract = new ethers.Contract(
-      TwitterContractAddress,
-      Twitter.abi,
-      signer
-    );
-
-    setContract(twitterContract);
+    setContract(new ethers.Contract(ADDRESS, SETTINGS.abi, signer));
   }, []);
 
   return (

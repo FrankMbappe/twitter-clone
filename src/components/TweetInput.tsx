@@ -1,11 +1,12 @@
-import { useCreateTweet, useUpdateTweet } from "@/hooks/tweets";
-import Tweet from "@/models/Tweet";
-import { METAMASK_LOGO_URL } from "@/utils";
+import React, { useState, useCallback, useMemo, useContext } from "react";
 import { Flex, Avatar, Stack, Button } from "@chakra-ui/react";
-import { useState, useCallback, useMemo, useContext } from "react";
+
 import { AccountContext } from "./AccountProvider";
 import AutoResizeTextarea from "./AutoResizeTextarea";
 import ErrorMsg from "./ErrorMsg";
+import { METAMASK_LOGO_URL } from "@/config";
+import type Tweet from "@/models/Tweet";
+import { useCreateTweet, useUpdateTweet } from "@/hooks/tweets";
 
 type TweetInputProps = {
   tweet?: Tweet;
@@ -32,7 +33,7 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
 
     // Create or edit tweet
     if (isEditing) {
-      await updateTweet(tweet!.id, { text });
+      if (tweet) await updateTweet(tweet.id, text);
     } else {
       await createTweet({ tweet: text });
     }
@@ -40,7 +41,7 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
     // Call submit callback
     await onSubmit?.();
     setText("");
-  }, [text, isEditing, createTweet, updateTweet]);
+  }, [text, isEditing, onSubmit, tweet, updateTweet, createTweet]);
 
   return (
     <Flex>
@@ -64,6 +65,8 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
         >
           {isEditing ? "Save" : "Tweet"}
         </Button>
+
+        {/* Display error message only if there's a create/update error. */}
         {!!(createError || updateError) && <ErrorMsg textOnly />}
       </Stack>
     </Flex>

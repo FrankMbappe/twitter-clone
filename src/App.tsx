@@ -10,8 +10,8 @@ import "@fontsource/poppins/700.css";
 
 const theme = extendTheme({
   fonts: {
-    heading: `'Poppins', sans-serif`,
-    body: `'Inter', sans-serif`,
+    heading: "'Poppins', sans-serif",
+    body: "'Inter', sans-serif",
   },
 });
 

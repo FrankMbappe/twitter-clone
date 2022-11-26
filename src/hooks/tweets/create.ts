@@ -1,25 +1,29 @@
 import { AccountContext } from "@/components/AccountProvider";
 import { useCallback, useContext, useState } from "react";
 
-type CreateTweetInput = {
-  tweet: string;
-};
-
 export function useCreateTweet() {
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const { contract } = useContext(AccountContext);
 
-  // function is called only once ==> useCallback
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  /**
+   * Create a tweet
+   * @param text The tweet text
+   */
   const createTweet = useCallback(
-    async (input: CreateTweetInput) => {
+    async (text: string) => {
       try {
+        // Start loading
         setLoading(true);
+
         // Reset error
         setError("");
-        await contract?.createTweet(input.tweet);
+
+        // Create tweet
+        await contract?.createTweet(text);
       } catch (error) {
+        // Set error
         setError((error as Error).message);
       } finally {
         // We are done!
@@ -28,8 +32,6 @@ export function useCreateTweet() {
     },
     [contract]
   );
-
-  //
 
   return { error, loading, createTweet };
 }

@@ -1,11 +1,13 @@
+import React from "react";
 import { Alert, AlertIcon, Text } from "@chakra-ui/react";
 
 type ErrorMsgProps = {
   msg?: string;
   textOnly?: boolean;
 };
+
 const ErrorMsg = ({
-  msg = "Sorry, something went wrong",
+  msg = "Sorry, something went wrong", // Default value
   textOnly,
 }: ErrorMsgProps) => {
   return textOnly ? (

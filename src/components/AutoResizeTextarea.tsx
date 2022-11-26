@@ -1,3 +1,4 @@
+import React from "react";
 import type { TextareaProps } from "@chakra-ui/react";
 import { Textarea, forwardRef } from "@chakra-ui/react";
 import type { TextareaAutosizeProps } from "react-textarea-autosize";

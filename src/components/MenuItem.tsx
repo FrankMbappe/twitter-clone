@@ -1,8 +1,11 @@
-import { As, Flex, FlexProps, Icon, Text } from "@chakra-ui/react";
+import React from "react";
+
+import type { As, FlexProps} from "@chakra-ui/react";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 
 type MenuItemProps = {
-  icon: As<any>;
-  iconSelected?: As<any>;
+  icon: As<unknown>;
+  iconSelected?: As<unknown>;
   text: string;
   isSelected?: boolean;
 };

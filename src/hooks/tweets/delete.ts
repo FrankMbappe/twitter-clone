@@ -7,20 +7,27 @@ export function useDeleteTweet() {
 
   const { contract } = useContext(AccountContext);
 
-  const deleteTweet = useCallback(async (id: string) => {
-    // TODO Delete tweet
-    try {
-      setLoading(true);
-      // Reset error
-      setError("");
-      await contract?.createTweet(input.tweet);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      // We are done!
-      setLoading(false);
-    }
-  }, [contract]);
+  const deleteTweet = useCallback(
+    async (id: string) => {
+      try {
+        // Start loading
+        setLoading(true);
+
+        // Reset error
+        setError("");
+
+        // Delete tweet
+        await contract?.deleteTweet(id);
+      } catch (error) {
+        // Set error
+        setError((error as Error).message);
+      } finally {
+        // We are done!
+        setLoading(false);
+      }
+    },
+    [contract]
+  );
 
   return { error, loading, deleteTweet };
 }
