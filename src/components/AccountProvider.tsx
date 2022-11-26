@@ -1,7 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
-import Web3 from "web3";
-import { ethers } from "ethers";
-import { ADDRESS, SETTINGS } from "@/contract";
+import contract, { web3 } from "@/contract";
 
 type AccountContextType = {
   userAccount: string;
@@ -9,7 +7,8 @@ type AccountContextType = {
   isUserConnected: boolean;
   userConnectError: string;
   connectToMetaMask: () => Promise<void>;
-  contract?: ethers.Contract;
+  contract?: typeof contract;
+  web3: typeof web3;
 };
 
 /* Creating a context object holding account info. */
@@ -21,6 +20,7 @@ export const AccountContext = createContext<AccountContextType>({
   connectToMetaMask: async () => {
     // Do nothing
   },
+  web3,
 });
 
 /**
@@ -30,7 +30,6 @@ export const AccountContext = createContext<AccountContextType>({
 const AccountProvider: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
-  const [contract, setContract] = useState<ethers.Contract>();
   const [isUserConnecting, setIsUserConnecting] = useState(false);
   const [userConnectError, setUserConnectError] = useState("");
   const [userAccount, setUserAccount] = useState("");
@@ -50,16 +49,14 @@ const AccountProvider: React.FC<{
       if (!window.ethereum) throw new Error("Ethereum is not defined");
 
       // Connect to MetaMask
-      const web3 = new Web3(window.ethereum);
       const accounts = await web3.eth.requestAccounts();
-
-      // Check if there are accounts
-      if (accounts.length === 0) throw new Error("No account found");
 
       // Set user account
       setUserAccount(accounts[0]);
     } catch (error) {
+      // Set error
       setUserConnectError((error as Error).message);
+      console.error(error);
     } finally {
       // We are done!
       setIsUserConnecting(false);
@@ -70,14 +67,9 @@ const AccountProvider: React.FC<{
     if (!window.ethereum) return;
 
     // When account changes, set user account
-    window.ethereum.on("accountsChanged", function (accounts: string[]) {
+    window.ethereum.on("accountsChanged", (accounts: string[]) => {
       setUserAccount(accounts[0]);
     });
-
-    // Set contract
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    setContract(new ethers.Contract(ADDRESS, SETTINGS.abi, signer));
   }, []);
 
   return (
@@ -89,6 +81,7 @@ const AccountProvider: React.FC<{
         isUserConnecting,
         userConnectError,
         contract,
+        web3,
       }}
     >
       {children}

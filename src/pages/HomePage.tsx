@@ -2,7 +2,7 @@ import { useListTweets } from "@/hooks/tweets";
 import ErrorMsg from "@/components/ErrorMsg";
 import TweetCard, { TweetCardSkeleton } from "@/components/TweetCard";
 import { range } from "@/utils";
-import { Stack, Divider, Flex, Heading } from "@chakra-ui/react";
+import { Stack, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import TweetInput from "@/components/TweetInput";
 
 const Feed = () => {
@@ -16,6 +16,10 @@ const Feed = () => {
     </Stack>
   ) : error ? (
     <ErrorMsg />
+  ) : tweets.length === 0 ? (
+    <Text textAlign="center" py={5} fontSize={18} color="gray">
+      {"Nothing to show yet. How about a new tweet 😃?"}
+    </Text>
   ) : (
     <Stack divider={<Divider />}>
       {tweets.map((tweet) => (

@@ -14,7 +14,7 @@ type TweetInputProps = {
 };
 
 const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
-  const [text, setText] = useState(tweet?.tweet || "");
+  const [text, setText] = useState(tweet?.text || "");
   const { isUserConnected } = useContext(AccountContext);
   const isEditing = useMemo(() => !!tweet, [tweet]);
   const {
@@ -35,7 +35,7 @@ const TweetInput = ({ tweet, onSubmit }: TweetInputProps) => {
     if (isEditing) {
       if (tweet) await updateTweet(tweet.id, text);
     } else {
-      await createTweet({ tweet: text });
+      await createTweet(text);
     }
 
     // Call submit callback

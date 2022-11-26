@@ -1,16 +1,24 @@
 import type Tweet from "@/models/Tweet";
 import { AccountContext } from "@/components/AccountProvider";
-import { useCallback, useEffect, useState, useContext } from "react";
+import { useCallback, useEffect, useState, useContext, useMemo } from "react";
+import orderBy from "lodash/orderBy";
 
 export function useListTweets() {
+  const { contract, web3, userAccount } = useContext(AccountContext);
+
   const [tweets, setTweets] = useState<Tweet[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { contract } = useContext(AccountContext);
+  const sortedTweets = useMemo(
+    () => orderBy(tweets, (t) => t.timestamp, "desc"),
+    [tweets]
+  );
 
+  /**
+   * Retrieve tweets and set tweets state variable
+   */
   const fetchTweets = useCallback(async () => {
-    // TODO Fetch tweets and set tweets variable
     try {
       // Start loading
       setLoading(true);
@@ -19,10 +27,7 @@ export function useListTweets() {
       setError("");
 
       // Fecth tweets
-      const tweetList = await contract?.tweets(0);
-      console.log("list", tweetList);
-
-      //setTweets(tweetList);
+      setTweets(await contract?.methods.getTweets().call());
     } catch (error) {
       // Set error
       setError((error as Error).message);
@@ -33,15 +38,23 @@ export function useListTweets() {
     }
   }, [contract]);
 
+  // When app loads
   useEffect(() => {
-    // Initial fetch
+    // Fetch tweets
     fetchTweets();
 
-    // TODO On new tweet, fetch again
-    /* smartContract.on('NewTweet', () => {
+    // On new block header, fetch again
+    web3.eth.subscribe("newBlockHeaders", (error: unknown) => {
+      if (error) return;
       fetchTweets();
-    }); */
-  }, [fetchTweets]);
+    });
 
-  return { error, loading, tweets, fetchTweets };
+    return () => {
+      web3.eth.clearSubscriptions((_, success) => {
+        if (success) console.log("All subscriptions cleared");
+      });
+    };
+  }, [contract?.methods, fetchTweets, userAccount, web3.eth]);
+
+  return { error, loading, tweets: sortedTweets, fetchTweets };
 }

@@ -2,7 +2,7 @@ import { AccountContext } from "@/components/AccountProvider";
 import { useCallback, useContext, useState } from "react";
 
 export function useCreateTweet() {
-  const { contract } = useContext(AccountContext);
+  const { contract, userAccount } = useContext(AccountContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,16 +21,17 @@ export function useCreateTweet() {
         setError("");
 
         // Create tweet
-        await contract?.createTweet(text);
+        await contract?.methods.createTweet(text).send({ from: userAccount });
       } catch (error) {
         // Set error
         setError((error as Error).message);
+        console.error(error);
       } finally {
         // We are done!
         setLoading(false);
       }
     },
-    [contract]
+    [contract, userAccount]
   );
 
   return { error, loading, createTweet };

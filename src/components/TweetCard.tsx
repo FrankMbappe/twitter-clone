@@ -24,8 +24,10 @@ import {
 } from "@chakra-ui/react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import TweetInput from "./TweetInput";
+import { truncate } from "@/utils";
+import { AccountContext } from "./AccountProvider";
 
 type TweetCardProps = {
   tweet: Tweet;
@@ -39,14 +41,19 @@ type TweetEditModalProps = {
 };
 
 const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
+  const { userAccount } = useContext(AccountContext);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { loading: isDeleting, deleteTweet } = useDeleteTweet();
   const time = useMemo(
     () =>
-      formatDistanceToNow(new Date(tweet.timestamp), {
+      formatDistanceToNow(new Date(tweet.timestamp * 1000) || new Date(), {
         addSuffix: true,
       }),
     [tweet.timestamp]
+  );
+  const canUpdate = useMemo(
+    () => userAccount === tweet.author,
+    [tweet.author, userAccount]
   );
 
   return (
@@ -60,37 +67,40 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
             align="center"
             divider={<Box boxSize={1} rounded="full" bg="gray" />}
           >
-            <Text fontWeight="bold">{tweet.author}</Text>
-            <Text color="gray">{"@guest"}</Text>
+            <Text fontWeight="bold">{truncate(tweet.author)}</Text>
             <Text color="gray">{time}</Text>
           </Stack>
 
-          <Text fontSize={18}>{tweet.tweet}</Text>
+          <Text fontSize={18}>{tweet.text}</Text>
 
-          <ButtonGroup isAttached variant="solid">
-            <IconButton
-              icon={<Icon as={PencilSquareIcon} />}
-              aria-label="edit"
-              onClick={onOpen}
-            />
-            <IconButton
-              icon={<Icon as={TrashIcon} />}
-              aria-label="delete"
-              isLoading={isDeleting}
-              onClick={async () => {
-                await deleteTweet(tweet.id);
-              }}
-            />
-          </ButtonGroup>
+          {canUpdate && (
+            <ButtonGroup isAttached variant="solid">
+              <IconButton
+                icon={<Icon as={PencilSquareIcon} />}
+                aria-label="edit"
+                onClick={onOpen}
+              />
+              <IconButton
+                icon={<Icon as={TrashIcon} />}
+                aria-label="delete"
+                isLoading={isDeleting}
+                onClick={async () => {
+                  await deleteTweet(tweet.id);
+                }}
+              />
+            </ButtonGroup>
+          )}
         </Stack>
       </Flex>
 
-      <TweetEditModal
-        tweet={tweet}
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={onUpdate}
-      />
+      {canUpdate && (
+        <TweetEditModal
+          tweet={tweet}
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={onUpdate}
+        />
+      )}
     </>
   );
 };

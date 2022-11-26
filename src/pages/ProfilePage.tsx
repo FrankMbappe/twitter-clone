@@ -13,10 +13,10 @@ const ProfilePage = () => {
       <ConnectToMetaMaskButton />
       {isUserConnected && (
         <>
-          <Text fontSize={22} fontWeight="bold">
+          <Text fontSize={22} fontWeight="bold" mt={5}>
             Address
           </Text>
-          <Text fontSize={25} mt={2}>
+          <Text fontSize={25} mt={2} wordBreak="break-all" textAlign="center">
             {userAccount}
           </Text>
         </>
