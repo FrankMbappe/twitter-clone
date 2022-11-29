@@ -52,7 +52,7 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
     [tweet.timestamp]
   );
   const canUpdate = useMemo(
-    () => userAccount === tweet.author,
+    () => userAccount.toLowerCase() === tweet.author.toLowerCase(),
     [tweet.author, userAccount]
   );
 

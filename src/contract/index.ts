@@ -2,7 +2,7 @@ import settings from "./settings.json";
 import Web3 from "web3";
 import { ethers } from "ethers";
 
-const address = "0xFDC77FA028748b247746367a7C4F00282fD922e9";
+const address = "0x50B6714BBC1408D1Ca179eD66a921C19008112C3";
 
 export const web3 = new Web3(window.ethereum);
 
