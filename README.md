@@ -6,7 +6,7 @@
   </p>
   <br />
   <sub>
-    Created by with ❤️ by <a href="https://github.com/dorix1990">Dornaz</a> and <a href="https://github.com/frankmbappe">Kevy</a>.
+    Created with ❤️ by <a href="https://github.com/dorix1990">Dornaz</a> and <a href="https://github.com/frankmbappe">Kevy</a>.
   </sub>
 </div>
 
