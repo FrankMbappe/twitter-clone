@@ -2,6 +2,7 @@ import type Tweet from "@/models/Tweet";
 import { AccountContext } from "@/components/AccountProvider";
 import { useCallback, useEffect, useState, useContext, useMemo } from "react";
 import orderBy from "lodash/orderBy";
+import type TweetWithLikes from "@/models/TweetWithLikes";
 
 export function useListTweets() {
   const { contract, web3, userAccount } = useContext(AccountContext);
@@ -26,8 +27,15 @@ export function useListTweets() {
       // Reset error
       setError("");
 
-      // Fecth tweets
-      setTweets(await contract?.methods.getTweets().call());
+      // Fetch tweets and likes
+      const tweetsWithLikes = (await contract?.methods
+        .getTweetsWithLikes()
+        .call()) as TweetWithLikes[];
+
+      // Merge tweets and likes
+      setTweets(
+        tweetsWithLikes.map((t) => ({ ...t.tweet, likedBy: t.likedBy }))
+      );
     } catch (error) {
       // Set error
       setError((error as Error).message);

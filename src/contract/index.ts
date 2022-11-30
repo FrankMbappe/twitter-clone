@@ -2,7 +2,7 @@ import settings from "./settings.json";
 import Web3 from "web3";
 import { ethers } from "ethers";
 
-const address = "0x50B6714BBC1408D1Ca179eD66a921C19008112C3";
+const address = "0x8BcA267811bd218427e67067A3ccB26BFE8550d0"; // Smart contract address
 
 export const web3 = new Web3(window.ethereum);
 

@@ -1,4 +1,4 @@
-import { useDeleteTweet } from "@/hooks/tweets";
+import { useDeleteTweet, useLikeOrDislikeTweet } from "@/hooks/tweets";
 import type Tweet from "@/models/Tweet";
 import { DEFAULT_USER_PIC } from "@/config";
 import {
@@ -28,6 +28,8 @@ import { useContext, useMemo } from "react";
 import TweetInput from "./TweetInput";
 import { truncate } from "@/utils";
 import { AccountContext } from "./AccountProvider";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
 
 type TweetCardProps = {
   tweet: Tweet;
@@ -44,6 +46,7 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
   const { userAccount } = useContext(AccountContext);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { loading: isDeleting, deleteTweet } = useDeleteTweet();
+  const { loading: isLiking, likeOrDislikeTweet } = useLikeOrDislikeTweet();
   const time = useMemo(
     () =>
       formatDistanceToNow(new Date(tweet.timestamp * 1000) || new Date(), {
@@ -54,6 +57,13 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
   const canUpdate = useMemo(
     () => userAccount.toLowerCase() === tweet.author.toLowerCase(),
     [tweet.author, userAccount]
+  );
+  const hasLiked = useMemo(
+    () =>
+      !!tweet.likedBy
+        ?.map((id) => id.toLowerCase())
+        .includes(userAccount.toLowerCase()),
+    [tweet.likedBy, userAccount]
   );
 
   return (
@@ -73,23 +83,42 @@ const TweetCard = ({ tweet, onUpdate }: TweetCardProps) => {
 
           <Text fontSize={18}>{tweet.text}</Text>
 
-          {canUpdate && (
-            <ButtonGroup isAttached variant="solid">
+          <Flex justify="space-between" align="center">
+            <Flex align="center">
               <IconButton
-                icon={<Icon as={PencilSquareIcon} />}
-                aria-label="edit"
-                onClick={onOpen}
-              />
-              <IconButton
-                icon={<Icon as={TrashIcon} />}
-                aria-label="delete"
-                isLoading={isDeleting}
+                icon={
+                  <Icon
+                    as={hasLiked ? HeartIconSolid : HeartIcon}
+                    color={hasLiked ? "red" : "gray"}
+                  />
+                }
+                aria-label="like-dislike"
+                isLoading={isLiking}
                 onClick={async () => {
-                  await deleteTweet(tweet.id);
+                  await likeOrDislikeTweet(tweet.id);
                 }}
               />
-            </ButtonGroup>
-          )}
+              <Text ml={3}>{tweet.likesCount}</Text>
+            </Flex>
+
+            {canUpdate && (
+              <ButtonGroup isAttached variant="solid">
+                <IconButton
+                  icon={<Icon as={PencilSquareIcon} />}
+                  aria-label="edit"
+                  onClick={onOpen}
+                />
+                <IconButton
+                  icon={<Icon as={TrashIcon} />}
+                  aria-label="delete"
+                  isLoading={isDeleting}
+                  onClick={async () => {
+                    await deleteTweet(tweet.id);
+                  }}
+                />
+              </ButtonGroup>
+            )}
+          </Flex>
         </Stack>
       </Flex>
 

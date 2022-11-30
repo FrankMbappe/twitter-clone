@@ -4,4 +4,6 @@ export default interface Tweet {
   timestamp: number;
   text: string;
   isDeleted: boolean;
+  likesCount: number;
+  likedBy: string[];
 }
